@@ -5,8 +5,10 @@
   },
   "dependencies": {
     "@slidev/cli": "^0.28.5",
+    "@slidev/theme-bricks": "^0.0.2",
     "@slidev/theme-default": "^0.21.1",
-    "slidev-theme-purplin": "^1.1.0"
+    "slidev-theme-purplin": "^1.1.0",
+    "slidev-theme-unicorn": "^1.1.1"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.0.4",

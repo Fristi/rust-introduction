@@ -50,6 +50,7 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 </BarBottom>
 
 
+
 ---
 
 # Agenda
@@ -57,11 +58,25 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 <v-clicks>
 
 - Why?
-- History
 - Language whirlwind tour
 - Cargo
 
 </v-clicks>
+
+---
+layout: center
+class: 'text-center pb-5'
+---
+
+# Why?
+
+---
+layout: center
+class: 'text-center pb-5'
+---
+
+## Most loved language on the annual 
+## **StackOverflow** survey for _7 years_
 
 ---
 
@@ -75,7 +90,6 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 - No garbage collector
 - Growing popularity
 - Memory safety
-- WASM
 
 </v-clicks>
 
@@ -85,11 +99,12 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 
 <v-clicks>
 
-- Linux Kernel
 - Systems programming
 - Web API's
 - Command Line Interface apps (CLI)
 - Embedded systems
+- WASM
+- Linux Kernel
 
 </v-clicks>
 
@@ -152,9 +167,8 @@ const HOUR_IN_SECONDS = 3600;
 ```
 
 
-- Use `let` to introduce a variable
-- Immutable by default
-- Use `mut` to make it mutable
+- Use `let` to introduce an immutable variable
+- Prefix with `mut` to make it mutable
 - Use `const` to introduce a constant (always immutable)
 
 ---
@@ -173,8 +187,9 @@ fn do_something() {
 ```
 
 
-- Functions which return something, can optionally use `return`
-- Functions which don't return anything, don't have any return type
+Functions which 
+- return something, can _optionally_ use `return`
+- don't return anything, don't have a return type
 
 ---
 
@@ -264,6 +279,15 @@ while index < 5 {
 }
 ```
 
+```rust
+let a = [10, 20, 30, 40, 50];
+
+for i in a {
+  println!("the value is: {}", i);
+}
+
+```
+
 ---
 
 # Structs
@@ -279,7 +303,7 @@ struct User {
 let fred = User { active: false, sign_in_count: 42 };
 ```
 
-### Unitless
+### Nameless structs
 
 ```rust
 struct Point(i32, i32);
@@ -288,8 +312,15 @@ let origin = Point(0,0);
 ```
 
 ---
+layout: center
+class: 'text-center pb-5'
+---
 
-# Stack v.s. heap
+# Memory (safety) and garbage collection
+
+---
+
+# Memory: Stack v.s. heap
 
 ### Stack
 
@@ -306,7 +337,7 @@ let origin = Point(0,0);
 
 ---
 
-# Stack values
+# Memory: Stack values
 
 ```rust
 let x: i32 = 42;
@@ -323,7 +354,7 @@ let origin = Point { x: 0.0, y: 0.0 }
 
 ---
 
-# Heap values
+# Memory: Heap values
 
 ```rust
 let string = String::from("Heap allocated string");
@@ -339,11 +370,9 @@ let person = Person { name: String::from("Mark"), age: 1337 }
 
 ```
 
-
-
 ---
 
-# Ownership of data
+# Memory: Ownership of data
 
 - Every _value_ has _one owner_
 - There can only be one owner at a time.
@@ -351,34 +380,319 @@ let person = Person { name: String::from("Mark"), age: 1337 }
 
 ---
 
+# Memory: Ownership of data
+
+```rust
+let s1 = String::from("hello");
+// owner is moved, s1 no longer valid
+let s2 = s1;
+```
+
+![picture](/mem1.svg)
+
+---
+
+# Memory: Ownership of data
+
+```rust
+let s1 = String::from("hello");
+// owner is moved, s1 no longer valid
+let s2 = s1;
+
+println!("{}, world!", s1);
+```
+
+```
+error[E0382]: borrow of moved value: `s1`
+ --> src/main.rs:5:28
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value borrowed here after move
+```
+
+---
+
+# Memory: Ownership of data
+
+### Fixing it
+
+```rust
+let s1 = String::from("hello");
+let s2 = s1.clone();
+
+println!("s1 = {}, s2 = {}", s1, s2);
+```
+
+---
+
 # Enums
+
+### Simple enumeration
+
+```rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+let four = IpAddrKind::V4;
+
+```
+
+### Algebraic data types
+
+```rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+```
+
+### Generic algebraic data types
+
+```rust
+enum Option<T> {
+    None,
+    Some(T),
+}
+```
 
 ---
 
 # Pattern matching
 
----
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
 
-# Option
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
 
 ---
 
 # Result
 
+### Definition
+
+```rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+
+### Example usage
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+}
+```
+
 ---
 
-# Unwrap
+# Unwrap results
+
+```rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut username_file = File::open("hello.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&mut username)?;
+    Ok(username)
+}
+```
+
+The `?` operator is syntax sugar for `match` on `Ok` and `Err`
 
 ---
 
-# Traits
+# Traits: basics
+
+<v-clicks>
+
+```rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+```
+
+```rust
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+
+```
+</v-clicks>
+
+---
+
+# Traits: standard library
+
+<v-clicks>
+
+- Clone
+- Debug
+- Default
+- Eq
+- Hash
+- Ord
+
+</v-clicks>
+
+---
+
+# Traits: applications
+
+### Derivation of traits
+
+```rust
+#[derive(Copy, Clone)]
+struct SomeType;
+```
+
+### Generic parameter constraining
+
+```rust
+fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32
+```
+
+### Conversions
+
+```rust
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl From<(i32, i32)> for Point {
+    fn from((x, y): (i32, i32)) -> Self {
+        Point { x, y }
+    }
+}
+```
 
 ---
 
 # Asynchronous programming
 
+```rust
+pub async fn schema_find_by_schema(&self, subject: &String, schema: &String) {
+    let avro_schema = AvroSchema::parse_str(schema.as_str())?;
+    let fingerprint = avro_schema.fingerprint::<Sha256>().to_string();
+    let res = self.repository.schema_find_by_schema(&subject, &fingerprint).await?;
+
+    Ok(res)
+}
+```
+
+Use `async` + `await` to have asynchronous code. 
+
+- Async code needs an executor
+- Implemented by a FSM + polling
 
 
+---
+layout: center
+class: 'text-center pb-5'
+---
+
+# Ecosystem
+
+---
+
+# Cargo: summary
+
+<v-clicks>
+
+- Dependency management
+- Project configuration
+- Building
+- Testing
+- Documentation
+
+</v-clicks>
+
+
+---
+
+# Cargo: example
+
+```toml
+[package]
+name = "rs-schema-registry"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.6.18"
+hyper = { version = "0.14.26", features = ["full"] }
+tokio = { version = "1.28.1", features = ["full"] }
+tower = "0.4.13"
+sqlx = { version = "0.7.0-alpha.3", features = [ "runtime-tokio", "tls-rustls", "postgres" ] }
+async-trait = "0.1.68"
+serde = "1.0.163"
+apache-avro = "0.14.0"
+sha2 = "0.10.6"
+async-recursion = "1.0.4"
+```
+
+---
+
+# Libraries
+
+![crates](/crates.png)
+
+---
+
+# Popular libraries
+
+<v-clicks>
+
+- **tokio**: An event-driven, non-blocking I/O platform for writing asynchronous I/O backed applications.
+- **sqlx**: An async, pure Rust SQL crate featuring compile-time checked queries without a DSL
+- **axum**: Web framework that focuses on ergonomics and modularity
+- **serde**: A generic serialization/deserialization framework
+- **embassy**: The next-generation framework for embedded applications
+
+</v-clicks>
 
 ---
 layout: center
