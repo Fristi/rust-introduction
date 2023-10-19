@@ -727,11 +727,13 @@ Schema Registry is to enforce data compatibility and enable schema evolution in 
 - Axum
 - Serde
 
+Uses idle **15 mb** and **41 mb** under load. *100.000* requests completed with 100 concurrent users with **~9300 request/second** with no tuning.
+
 [Github](https://github.com/vectos/rs-schema-registry)
 
 ---
 layout: image-x
-image: '/plant.jpeg'
+image: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the_sill-variant-white_gloss-money_tree.jpg?v=1680542101'
 imageOrder: 2
 ---
 
