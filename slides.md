@@ -18,7 +18,7 @@ An introduction to Rust
   </div>
 </div>
 
-<BarBottom  title="zio-test">
+<BarBottom  title="rust introduction">
   <Item text="">
     <img
       src="https://vectos.net/img/logo.png"
@@ -40,7 +40,7 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 
 <img src="https://vectos.net/img/mark.jpg" class="rounded-full w-40 abs-tr mt-30 mr-20"/>
 
-<BarBottom  title="zio-test">
+<BarBottom  title="rust introduction">
   <Item text="">
     <img
       src="https://vectos.net/img/logo.png"
@@ -59,7 +59,7 @@ Company site: <a href="https://vectos.net" target="_blank">Vectos</a>.<br>
 
 - Why?
 - Language whirlwind tour
-- Cargo
+- Ecosystem
 
 </v-clicks>
 
@@ -90,6 +90,7 @@ class: 'text-center pb-5'
 - No garbage collector
 - Growing popularity
 - Memory safety
+- DX/Tooling
 
 </v-clicks>
 
@@ -634,7 +635,7 @@ layout: center
 class: 'text-center pb-5'
 ---
 
-# Ecosystem
+# DX/Tooling
 
 ---
 
@@ -693,6 +694,58 @@ async-recursion = "1.0.4"
 - **embassy**: The next-generation framework for embedded applications
 
 </v-clicks>
+
+---
+layout: image-x
+image: 'https://raw.githubusercontent.com/Fristi/rs-esp32-weatherstation/main/result.jpeg'
+imageOrder: 2
+---
+
+# rs-esp32-weatherstation
+
+Bare-metal Rust
+
+- ASAIR DHT20 Temperature and Humidity Sensor
+- ASAIR AGS02MA TVOC Gas Sensor
+- 0.91-inch OLED Display 128*32 pixels white
+
+Reads sensors over i2c and outputs readings on display which is SSD1306 compatabile.
+
+[Github](https://github.com/Fristi/rs-esp32-weatherstation)
+
+---
+layout: image-x
+image: 'https://miro.medium.com/v2/resize:fit:1400/0*RNcZmLPN5jljq46M.png'
+imageOrder: 2
+---
+
+# rs-schema-registry
+
+Schema Registry is to enforce data compatibility and enable schema evolution in a decoupled manner.
+
+- SQLX
+- Axum
+- Serde
+
+[Github](https://github.com/vectos/rs-schema-registry)
+
+---
+layout: image-x
+image: '/plant.jpeg'
+imageOrder: 2
+---
+
+# mycelium
+
+Automatically watering house plants
+
+Mycelium is a project which consists of a firmware, backend and frontend
+
+- firmware is Rust/ESP32 (I2C, WiFi, BLE)
+- frontend is TypeSccript/React/Capacitor (Auth0, BLE)
+- backend in Scala (Auth0, Http4s, Doobie)
+
+[Github](https://github.com/Frist/project-mycelium)
 
 ---
 layout: center
